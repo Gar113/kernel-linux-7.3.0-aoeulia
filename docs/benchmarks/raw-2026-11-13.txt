@@ -1,0 +1,119 @@
+PS4 Linux benchmark
+tanggal   : 2026-11-13T18:13:15+07:00
+kernel    : 7.3.0-Gar113-NoLTO
+build     : #2 SMP PREEMPT_DYNAMIC Fri Nov 13 13:46:23 WIB 2026
+mesin     : AMD Jaguar @ 1600,0000 MHz, 8 thread
+memori    : 5.8 GiB total, 5.0 GiB swap
+cmdline   : panic=0 clocksource=tsc consoleblank=0 net.ifnames=0 radeon.dpm=0 amdgpu.dpm=0 drm.debug=0 console=ttyS0,115200n8 console=tty0 video=HDMI-A-1:1920x1080@60
+catatan   : hasil mentah, angka bisa beda tergantung suhu/background load
+
+
+===== config kernel (fitur yang diuji) =====
+  CONFIG_PSI=y
+  CONFIG_PSI_DEFAULT_DISABLED=n
+  CONFIG_DEFAULT_MMAP_MIN_ADDR=0
+  CONFIG_LRU_GEN=y
+  CONFIG_ZRAM=y
+  CONFIG_ZSWAP=y
+  CONFIG_ANDROID_BINDERFS=y
+  CONFIG_NTSYNC=y
+  CONFIG_SCHED_CLASS_EXT=y
+  CONFIG_DEBUG_INFO_BTF=y
+  CONFIG_PREEMPT_DYNAMIC=y
+  CONFIG_HZ=250
+  CONFIG_HIGH_RES_TIMERS=y
+  CONFIG_IO_URING=y
+  CONFIG_OVERLAY_FS=y
+  CONFIG_USERFAULTFD=y
+  CONFIG_TCP_CONG_BBR=y
+  CONFIG_IOSCHED_BFQ=y
+  CONFIG_DEFAULT_NET_SCH="fq_codel"
+  psi        : cpu io memory 
+  zram       : /dev/zram0 lz4 4G 911,5M 315,7M
+  zswap      : N
+  sched_ext  : disabled
+  mmap_min   : 0
+  governor   : performance
+  clocksource: tsc
+  btf        : ada
+
+
+===== CPU =====
+  openssl speed, 2 detik per algo (angka = 1000 byte/detik)
+  AES-256-GCM      15327.68k    51714.34k   143052.55k   393708.54k   722722.82k   765483.30k
+  sha256           12841.64k    33088.70k    63160.04k    82369.54k    90107.90k    90389.14k
+  ChaCha20-Poly1305    61914.73k   123093.60k   217347.69k   250067.97k   261054.46k   261963.78k
+  7z b -mmt8 (MIPS total)
+  7-Zip 26.06 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-11-06
+  Avr:      8599   614   1472   9047  |     142435   622   1996  12406
+  Tot:             618   1734  10726
+  zstd -b3 / -b19 (MB/s)
+  bench 1.5.7 : input 10000000 bytes, 2 seconds, 0 KB blocks
+  -3      2983345 (3.352)  43.81 MB/s  143.4 MB/s  Lorem ipsum
+  bench 1.5.7 : input 10000000 bytes, 2 seconds, 0 KB blocks
+  -19     2305368 (4.338)   0.49 MB/s  106.6 MB/s  Lorem ipsum
+
+
+===== memori =====
+  dd /dev/zero -> /dev/null, bs=1M x 4096
+  4294967296 bytes (4,3 GB, 4,0 GiB) copied, 0,753694 s, 5,7 GB/s
+  fio tmpfs (/dev/shm) 512M, bs=1M
+  tmpfs read :   2063.4 MiB/s
+  tmpfs write:   1870.6 MiB/s
+
+
+===== disk (root ext4, HGST HTS545050A7E680 5400rpm) =====
+  rotational: 1   scheduler: none [mq-deadline] kyber bfq 
+  file uji: 513M (prep 512M, direct=1)
+  seqread    read    85.3 MiB/s      85 IOPS lat p99  34.34 ms
+  seqwrite   write    61.6 MiB/s      62 IOPS lat p99 100.14 ms
+  randread   read     0.2 MiB/s      54 IOPS lat p99 471.86 ms
+  randwrite  write     0.6 MiB/s     151 IOPS lat p99 505.41 ms
+
+
+===== latency / timer granularity (HZ=250) =====
+  sleep(  0.5 ms): p50   3983 us  p99   4437 us  max   4501 us
+  sleep(  1.0 ms): p50   3987 us  p99   4508 us  max   5122 us
+  sleep(  2.0 ms): p50   3990 us  p99   5960 us  max   7979 us
+  sleep(  5.0 ms): p50   7983 us  p99   8735 us  max   9224 us
+  sleep( 10.0 ms): p50  11986 us  p99  13941 us  max  14001 us
+  jitter sleep(1 ms) saat idle vs 8x beban CPU
+  idle   : avg   3761 us  p50  3985  p95  4100 p99  4507  max   6478 us
+  load 8 : avg   3993 us  p50  3990  p95  4136 p99  4222  max   8043 us
+
+
+===== PSI: tekanan CPU (16 proses yes) dan memori (alokasi 2 GiB) =====
+  cpu    sebelum load      : some avg10=19.79
+  cpu    puncak saat load : some avg10=45.01
+  memori sebelum alokasi  : some avg10= 0.02  avail 2900 MiB
+  alokasi                 : 4.00 GiB dalam 17.6 s (233 MiB/s), sisa avail 548 MiB
+  memori puncak avg10     : some 30.44  full 30.29
+  swap                    : in 23134 hal, out 582753 hal
+
+
+===== GPU (radeonsi liverpool, mesa) =====
+      Device: AMD Radeon Graphics (radeonsi, liverpool, ACO, DRM 3.64, 7.3.0-Gar113-NoLTO) (0x9920)
+      Version: 25.1.0
+      Accelerated: yes
+      Video memory: 2048MB
+      Max core profile version: 4.6
+  OpenGL core profile version string: 4.6 (Core Profile) Mesa 25.1.0-devel (git-d1d2afa3ac)
+  OpenGL core profile shading language version string: 4.60
+  OpenGL core profile context flags: (none)
+  OpenGL core profile profile mask: core profile
+  glmark2 1280x720, 5 scene x 3 detik (XWayland)
+  [build] duration=3: FPS: 3326 FrameTime: 0.301 ms
+  [texture] duration=3: FPS: 4105 FrameTime: 0.244 ms
+  [shading] duration=3: FPS: 4167 FrameTime: 0.240 ms
+  [jellyfish] duration=3: FPS: 3105 FrameTime: 0.322 ms
+  [terrain] duration=3: FPS: 663 FrameTime: 1.510 ms
+                                    glmark2 Score: 3072 
+  vkmark 1280x720, 3 scene x 3 detik (Wayland)
+  [vertex] duration=3: FPS: 5452 FrameTime: 0.183 ms
+  [texture] duration=3: FPS: 5385 FrameTime: 0.186 ms
+  [shading] duration=3: FPS: 5368 FrameTime: 0.186 ms
+                                     vkmark Score: 5401
+
+
+===== selesai =====
+  hasil mentah: /home/qba/ps4-kernel-darling/docs/benchmarks/raw-2026-11-13.txt

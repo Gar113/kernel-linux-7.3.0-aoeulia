@@ -59,6 +59,30 @@ di console PS4.
   `overlay on /home/qba/.darling … lowerdir=/usr/libexec/darling, upperdir=/home/qba/.darling`
 - `journalctl -k -b` bersih dari oops/BUG
 
+### Dokumentasi
+
+| Dokumen | Isi |
+|---|---|
+| [Fitur kernel](https://github.com/Gar113/kernel-linux-7.3.0-aoeulia/blob/main/docs/FEATURES.md) | PSI, prasyarat Darling, MGLRU/zram, preemption, sched_ext, io_uring, BBR, NTSYNC, binderfs, trade-off `mmap_min_addr=0` |
+| [Dukungan hardware](https://github.com/Gar113/kernel-linux-7.3.0-aoeulia/blob/main/docs/HARDWARE.md) | Jaguar, Liverpool 18 CU, GDDR5 shared, SATA/AHCI, SD8797 WiFi, Yukon GbE, xHCI, audio, sensor, cmdline |
+| [Benchmark](https://github.com/Gar113/kernel-linux-7.3.0-aoeulia/blob/main/docs/BENCHMARKS.md) | Hasil terukur + cara ulang (`scripts/bench.sh`) |
+
+### Benchmark singkat (dijalankan di console ini)
+
+| Area | Angka kunci |
+|---|---|
+| CPU | AES-256-GCM **765 MB/s** · SHA-256 90 MB/s · 7z **10.726 MIPS** |
+| Memori | `dd` **5,7 GB/s** · tmpfs 2,0 GiB/s |
+| Disk (HDD 5400 rpm) | **85 MiB/s** seq read · 54 IOPS random 4K |
+| Latency | lantai timer **4 ms** (`HZ=250`) · jitter p99 4,5 ms |
+| PSI | CPU **45,01** · memori **30,44** saat tekanan |
+| GPU (DPM off) | glmark2 **3.072** · vkmark **5.401** |
+
+Catatan dari benchmark: walaupun `CONFIG_HIGH_RES_TIMERS=y`, platform Aeolia
+tidak masuk mode high-res (clockevent di-broadcast lewat PIT), jadi `sleep()`
+dibulatkan ke jiffy 4 ms. Kalau butuh granularitas lebih halus, build dengan
+`CONFIG_HZ=1000`.
+
 ### Cara pasang
 
 ```bash

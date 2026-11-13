@@ -94,12 +94,35 @@ dan beberapa syscall yang sebelumnya dimatikan.
 | `CONFIG_ANDROID_BINDERFS` | `y` | Waydroid |
 | `CONFIG_NTSYNC` | `y` | Wine/Proton |
 | `CONFIG_HZ`, `CONFIG_PREEMPT_DYNAMIC` | `250`, `y` | latency |
-| `CONFIG_DEFAULT_IOSCHED`, `CONFIG_DEFAULT_NET_SCH` | `bfq`, `fq_codel` | storage + net |
+| `CONFIG_IOSCHED_BFQ`, `CONFIG_DEFAULT_NET_SCH` | `y`, `fq_codel` | storage + net |
 | `CONFIG_TCP_CONG_BBR` | `y` | congestion control |
 
 Config utuh: [`config/kernel-7.3.0-Gar113-NoLTO.config`](config/kernel-7.3.0-Gar113-NoLTO.config)
 
 </details>
+
+## Dokumentasi
+
+| Dokumen | Isi |
+|:--|:--|
+| 📘 [**Fitur kernel**](docs/FEATURES.md) | PSI, prasyarat Darling, MGLRU/zram, `PREEMPT_DYNAMIC`, sched_ext, io_uring, BBR, NTSYNC, binderfs, trade-off `mmap_min_addr=0` — lengkap dengan perintah verifikasi |
+| 🔩 [**Dukungan hardware**](docs/HARDWARE.md) | Jaguar, Liverpool 18 CU, 8 GB GDDR5 shared, SATA/AHCI, SD8797 WiFi, Yukon GbE, xHCI, HDMI/USB audio, sensor, cmdline boot, tabel jalan/belum |
+| 📊 [**Benchmark**](docs/BENCHMARKS.md) | CPU (OpenSSL/7z/zstd), memori, disk, latency timer, PSI, GPU (glmark2/vkmark) — dijalankan di console ini, log mentah disertakan |
+
+### Hasil benchmark singkat
+
+| Area | Angka kunci |
+|:--|:--|
+| CPU | AES-256-GCM **765 MB/s** · SHA-256 90 MB/s · 7z **10.726 MIPS** |
+| Memori | `dd` **5,7 GB/s** · tmpfs 2,0 GiB/s |
+| Disk (HDD 5400 rpm) | **85 MiB/s** seq read · 54 IOPS random 4K |
+| Latency | lantai timer **4 ms** (`HZ=250`) · jitter p99 4,5 ms |
+| PSI | CPU **45,01** · memori **30,44** saat tekanan |
+| GPU (DPM off) | glmark2 **3.072** · vkmark **5.401** |
+
+```bash
+./scripts/bench.sh     # ulangi di mesin Anda, ~3 menit
+```
 
 ## Build
 
@@ -212,8 +235,13 @@ build.sh                                  skrip build (PSI + Darling, KNAME, LTO
 configs/darling.cfg                       fragmen config prasyarat Darling
 config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build (+ .sha256)
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
+scripts/bench.sh                          benchmark CPU/memori/disk/latency/PSI/GPU
 scripts/update-logo.sh                    ambil avatar -> regenerate branding
 scripts/build-branding.py                 generator docs/logo.svg + docs/hero.svg
+docs/FEATURES.md                          dokumentasi fitur + cara verifikasi
+docs/HARDWARE.md                          dukungan hardware PS4 Aeolia
+docs/BENCHMARKS.md                        hasil benchmark + cara ulang
+docs/benchmarks/raw-2026-11-13.txt        log mentah benchmark
 docs/hero.svg                             hero: Tux + Linux x PlayStation + tombol PS, marquee
 docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
 docs/gar113.svg                           wordmark "GAR 113" muncul huruf demi huruf, loop
