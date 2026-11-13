@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="170" viewBox="0 0 600 170" role="img" aria-label="GAR 113">
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3fb950"/>
+      <stop offset="50%" stop-color="#58a6ff"/>
+      <stop offset="100%" stop-color="#8957e5"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3fb950" stop-opacity="0"/>
+      <stop offset="25%" stop-color="#3fb950"/>
+      <stop offset="75%" stop-color="#58a6ff"/>
+      <stop offset="100%" stop-color="#8957e5" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="reveal">
+      <rect x="10" y="10" width="0" height="150">
+        <animate attributeName="width"
+                 values="0;0;452;452;452;0;0"
+                 keyTimes="0;0.06;0.52;0.84;0.9;0.94;1"
+                 dur="6.5s" repeatCount="indefinite"/>
+      </rect>
+    </clipPath>
+    <style>
+      .name { font-family: 'JetBrains Mono', 'DejaVu Sans Mono', monospace;
+              font-size: 100px; font-weight: 700; letter-spacing: 2px;
+              fill: url(#ink); }
+      .tag  { font-family: monospace; font-size: 13px; letter-spacing: 4px;
+              fill: #6e7f9e; }
+    </style>
+  </defs>
+
+  <!-- teks yang muncul huruf demi huruf, lalu hilang, loop -->
+  <g clip-path="url(#reveal)">
+    <text x="10" y="118" class="name" filter="url(#soft)">GAR 113</text>
+  </g>
+
+  <!-- kursor: ikut bergerak saat mengetik, kedip saat berhenti -->
+  <g>
+    <animate attributeName="opacity"
+             values="0;1;1;1;0;0;1"
+             keyTimes="0;0.06;0.5;0.86;0.9;0.94;1"
+             dur="6.5s" repeatCount="indefinite"/>
+    <rect x="10" y="30" width="7" height="92" rx="2" fill="#3fb950">
+      <animate attributeName="x"
+               values="10;10;462;462;462;10;10"
+               keyTimes="0;0.06;0.52;0.84;0.9;0.94;1"
+               dur="6.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity"
+               values="1;1;0;1;1;0"
+               dur="1.05s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- garis bawah menyapu -->
+  <rect x="10" y="134" width="0" height="4" rx="2" fill="url(#line)">
+    <animate attributeName="width"
+             values="0;0;440;440;0;0"
+             keyTimes="0;0.18;0.62;0.86;0.9;1"
+             dur="6.5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- label kecil -->
+  <text x="12" y="160" class="tag">
+    KERNEL · PS4 AEOLIA · 7.3.0
+    <animate attributeName="opacity"
+             values="0;0;1;1;0;0"
+             keyTimes="0;0.58;0.66;0.86;0.9;1"
+             dur="6.5s" repeatCount="indefinite"/>
+  </text>
+</svg>

@@ -217,10 +217,15 @@ config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build + sha256
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
 scripts/update-logo.sh                    regenerate docs/logo.svg dari avatar GitHub
 docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
+docs/gar113.svg                           wordmark "GAR 113" muncul huruf demi huruf, loop
 docs/*.svg                                banner, diagram arsitektur, animasi build
 ```
 
 ## Pembuat
+
+<p align="center">
+  <img src="docs/gar113.svg" alt="GAR 113" width="420">
+</p>
 
 <table>
 <tr>

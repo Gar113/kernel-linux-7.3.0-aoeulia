@@ -84,6 +84,18 @@
     <animate attributeName="y" values="0;318;0" dur="9s" repeatCount="indefinite"/>
   </rect>
 
-  <!-- credit -->
-  <text x="1136" y="300" text-anchor="end" font-family="monospace" font-size="13" fill="#6e7f9e">by GAR 113</text>
+  <!-- credit: "by GAR 113" muncul huruf demi huruf, loop -->
+  <clipPath id="creditClip">
+    <rect x="1054" y="286" width="0" height="20">
+      <animate attributeName="width"
+               values="0;0;86;86;86;0;0"
+               keyTimes="0;0.1;0.55;0.85;0.9;0.94;1"
+               dur="6.5s" repeatCount="indefinite"/>
+    </rect>
+  </clipPath>
+  <text x="1136" y="300" text-anchor="end" font-family="monospace" font-size="13"
+        fill="#8b9bb8" clip-path="url(#creditClip)">by <tspan fill="#3fb950" font-weight="700">GAR 113</tspan></text>
+  <rect x="1139" y="289" width="2.5" height="13" fill="#3fb950">
+    <animate attributeName="opacity" values="1;1;0;1;1;0" dur="1.05s" repeatCount="indefinite"/>
+  </rect>
 </svg>

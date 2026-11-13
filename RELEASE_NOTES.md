@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/logo.svg" width="120" alt="Logo GAR 113">
   <br>
-  <sub>dibangun &amp; diuji di console oleh <b>GAR 113</b></sub>
+  <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/gar113.svg" width="360" alt="GAR 113">
 </p>
 
 ## Kernel PS4 Linux 7.3.0 — PSI + prasyarat Darling
