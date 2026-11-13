@@ -204,17 +204,25 @@ GDK_BACKEND=x11 ~/.local/bin/Quadra.AppImage
 
 ## Struktur repo
 
+<details>
+<summary>Lihat daftar file</summary>
+
 ```text
 build.sh                                  skrip build (PSI + Darling, KNAME, LTO, OUT/LOG)
 configs/darling.cfg                       fragmen config prasyarat Darling
-config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build + sha256
+config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build (+ .sha256)
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
-scripts/update-logo.sh                    regenerate docs/logo.svg + docs/hero.svg dari avatar
-docs/hero.svg                             hero: Tux + Linux x PlayStation + tombol PS, marquee, stempel NVIDIA
+scripts/update-logo.sh                    ambil avatar -> regenerate branding
+scripts/build-branding.py                 generator docs/logo.svg + docs/hero.svg
+docs/hero.svg                             hero: Tux + Linux x PlayStation + tombol PS, marquee
 docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
 docs/gar113.svg                           wordmark "GAR 113" muncul huruf demi huruf, loop
-docs/*.svg                                diagram arsitektur, animasi build
+docs/architecture.svg                     diagram hardware -> kernel -> userspace
+docs/build-animation.svg                  animasi build sampai bzImage siap
+AUTHORS · LICENSE · RELEASE_NOTES.md      kredit, GPL-2.0, catatan rilis
 ```
+
+</details>
 
 ## Pembuat
 
