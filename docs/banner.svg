@@ -83,4 +83,7 @@
   <rect x="0" y="0" width="1200" height="2" fill="url(#accent)" opacity="0.55">
     <animate attributeName="y" values="0;318;0" dur="9s" repeatCount="indefinite"/>
   </rect>
+
+  <!-- credit -->
+  <text x="1136" y="300" text-anchor="end" font-family="monospace" font-size="13" fill="#6e7f9e">by GAR 113</text>
 </svg>

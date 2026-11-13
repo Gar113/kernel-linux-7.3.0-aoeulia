@@ -1,0 +1,9 @@
+Kernel PS4 Linux 7.3.0 — PSI + prasyarat Darling
+
+Pembuat / maintainer:
+  GAR 113  <https://github.com/Gar113>
+
+Dibangun dan diuji langsung di console PlayStation 4 (Aeolia, AMD Jaguar 8C,
+8 GB GDDR5 shared, Radeon GCN2 "Liverpool").
+
+Source kernel: https://github.com/striker91n/ps4-linux-7.3 (Linux 7.3.0 "Strawberry")

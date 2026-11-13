@@ -7,6 +7,9 @@ Darling 0.1.
 
 ### Identitas build
 
+Dibuat oleh **GAR 113** (<https://github.com/Gar113>), dibangun dan diuji langsung
+di console PS4.
+
 | Item | Nilai |
 |---|---|
 | `uname -r` | `7.3.0-Gar113-NoLTO` |

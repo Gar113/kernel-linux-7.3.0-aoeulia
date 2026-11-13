@@ -2,6 +2,7 @@
 # Build PS4-Linux "Strawberry" kernel for Aeolia with PSI enabled (for Android lmkd)
 # and optional Darling (macOS layer) prerequisites.
 # Source: https://github.com/striker91n/ps4-linux-7.3
+# Author: GAR 113 (https://github.com/Gar113)
 # Usage: [LTO=none|thin] [DARLING=0|1] [KNAME="custom-name"] ./ps4-kernel-build.sh
 #   KNAME overrides the version suffix, e.g. KNAME="Gar113-NoLTO" -> uname -r
 #   becomes "7.3.0-Gar113-NoLTO" (PSI/Darling tags are dropped in that case).

@@ -13,11 +13,18 @@
   <img src="https://img.shields.io/badge/Darling-ready-8957e5?style=for-the-badge&logo=apple&logoColor=white" alt="darling">
   <img src="https://img.shields.io/badge/platform-PS4%20Aeolia-eb6e00?style=for-the-badge&logo=playstation&logoColor=white" alt="platform">
   <img src="https://img.shields.io/badge/toolchain-clang%2019.1.7-58a6ff?style=for-the-badge&logo=llvm&logoColor=white" alt="toolchain">
+  <a href="https://github.com/Gar113"><img src="https://img.shields.io/badge/author-GAR%20113-e3b341?style=for-the-badge&logo=github&logoColor=white" alt="author"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--2.0-3fb950?style=for-the-badge" alt="license"></a>
 </p>
 
 <p align="center">
   <sub>PS4 Linux “Strawberry” · AMD Jaguar 8C · 8 GB GDDR5 shared · Radeon GCN2 “Liverpool”</sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Gar113"><img src="https://github.com/Gar113.png?size=96" width="56" height="56" alt="GAR 113"></a>
+  <br>
+  <sub>dibangun &amp; diuji di console oleh <b>GAR 113</b></sub>
 </p>
 
 ---
@@ -211,11 +218,29 @@ scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel 
 docs/*.svg                                banner, diagram arsitektur, animasi build
 ```
 
+## Pembuat
+
+<table>
+<tr>
+<td width="96" align="center" valign="middle">
+  <a href="https://github.com/Gar113"><img src="https://github.com/Gar113.png?size=160" width="88" height="88" alt="GAR 113"></a>
+</td>
+<td valign="middle">
+
+**GAR 113** — build, uji, dan pasang langsung di console PS4 (Aeolia).
+
+[![GitHub](https://img.shields.io/badge/GitHub-Gar113-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/Gar113)
+[![Repo](https://img.shields.io/badge/repo-kernel--linux--7.3.0--aoeulia-1f6feb?style=flat-square&logo=git&logoColor=white)](https://github.com/Gar113/kernel-linux-7.3.0-aoeulia)
+
+</td>
+</tr>
+</table>
+
 ## Lisensi
 
 Kernel dan turunannya (`config`, `System.map`, `bzImage`) mengikuti lisensi source
 kernel: **GPL-2.0**. Skrip di repo ini disediakan apa adanya.
 
 <div align="center">
-  <sub>Dibangun di console itu sendiri · clang 19.1.7 · ±2 jam · <code>-j6</code> nice 10</sub>
+  <sub>© 2026 GAR 113 · dibangun di console itu sendiri · clang 19.1.7 · ±2 jam · <code>-j6</code> nice 10</sub>
 </div>
