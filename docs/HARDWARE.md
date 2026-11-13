@@ -6,6 +6,10 @@ verifikasinya disertakan supaya bisa diulang di mesin lain.
 
 ## Ringkasan mesin
 
+<div align="center">
+  <img src="hardware.svg" alt="Peta hardware PS4 Aeolia: APU, GDDR5 shared, southbridge, peripheral" width="100%">
+</div>
+
 | Komponen | Isi | Driver / status |
 |:--|:--|:--|
 | APU | AMD Jaguar 8 core / 8 thread @ 1,6 GHz | `k10temp`, `ps4_cpufreq`, jalan |
@@ -23,6 +27,13 @@ verifikasinya disertakan supaya bisa diulang di mesin lain.
 
 `uname -r` → `7.3.0-Gar113-NoLTO` · `lspci` root complex `1022:1436` ·
 southbridge `Aeolia B1 [104d:90a1]`.
+
+<div align="center">
+  <img src="shots/sys.png" alt="fastfetch di PS4: kernel, GPU, memori, WiFi, audio" width="100%">
+</div>
+
+<sub>Tangkapan layar asli dari console: `fastfetch`, `glxinfo`, `vulkaninfo`,
+`iw`, dan `/proc/asound/cards` di mesin uji.</sub>
 
 ---
 

@@ -199,6 +199,35 @@ overlay on /home/qba/.darling type overlay (rw,relatime,
   workdir=/home/qba/.darling.workdir)
 ```
 
+## Bukti di console
+
+Bukan mockup — tangkapan layar dari console yang menjalankan kernel ini.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+<img src="docs/shots/verify.png" alt="Verifikasi PSI, mmap_min_addr, Darling, zram, BTF di PS4">
+
+<sub><b>Verifikasi:</b> PSI aktif, `mmap 0x1000` berhasil, `darling exec` jalan,
+zram lz4 4 GiB, BTF ada.</sub>
+
+</td>
+<td width="50%" valign="top">
+
+<img src="docs/shots/bench.png" alt="Ringkasan benchmark CPU, disk, latency, PSI, GPU">
+
+<sub><b>Benchmark:</b> CPU, memori, disk HDD, latency timer, PSI, GPU —
+dari `scripts/bench.sh`.</sub>
+
+</td>
+</tr>
+</table>
+
+<div align="center">
+  <img src="docs/bench.svg" alt="Grafik benchmark: CPU, disk, PSI, GPU" width="100%">
+</div>
+
 ## Known issues
 
 <details open>
@@ -236,12 +265,17 @@ configs/darling.cfg                       fragmen config prasyarat Darling
 config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build (+ .sha256)
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
 scripts/bench.sh                          benchmark CPU/memori/disk/latency/PSI/GPU
+scripts/build-docs-assets.py              generator docs/{hardware,psi,bench}.svg
 scripts/update-logo.sh                    ambil avatar -> regenerate branding
 scripts/build-branding.py                 generator docs/logo.svg + docs/hero.svg
 docs/FEATURES.md                          dokumentasi fitur + cara verifikasi
 docs/HARDWARE.md                          dukungan hardware PS4 Aeolia
 docs/BENCHMARKS.md                        hasil benchmark + cara ulang
 docs/benchmarks/raw-2026-11-13.txt        log mentah benchmark
+docs/hardware.svg                         peta hardware Aeolia (animasi)
+docs/psi.svg                              alur PSI sampai lmkd (animasi)
+docs/bench.svg                            grafik benchmark (animasi)
+docs/shots/{verify,bench,sys}.png         tangkapan layar asli dari console
 docs/hero.svg                             hero: Tux + Linux x PlayStation + tombol PS, marquee
 docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
 docs/gar113.svg                           wordmark "GAR 113" muncul huruf demi huruf, loop

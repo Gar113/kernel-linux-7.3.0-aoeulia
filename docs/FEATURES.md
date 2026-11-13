@@ -32,6 +32,10 @@ PSI + prasyarat Darling + tuning General. Semua simbol di bawah bisa dicek di
 berdasarkan *tekanan* memori, bukan ambang `MemFree` yang buta. Di PS4, memori
 8 GB dipakai bersama GPU, jadi ambang buta mudah salah bunuh.
 
+<div align="center">
+  <img src="psi.svg" alt="Alur PSI: proses, kernel, /proc/pressure, lmkd, kill" width="100%">
+</div>
+
 **Config:** `CONFIG_PSI=y`, `CONFIG_PSI_DEFAULT_DISABLED=n` → aktif sejak boot,
 tanpa `psi=1` di cmdline.
 
@@ -233,6 +237,10 @@ sudo mount -t binder binder /dev/binderfs
 ---
 
 ## 8. Verifikasi cepat
+
+<div align="center">
+  <img src="shots/verify.png" alt="Verifikasi PSI, mmap_min_addr, Darling, zram, BTF di console" width="100%">
+</div>
 
 ```bash
 ./scripts/verify-kernel.sh          # PSI + prasyarat Darling

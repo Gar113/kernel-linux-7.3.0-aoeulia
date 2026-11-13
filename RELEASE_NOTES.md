@@ -59,6 +59,10 @@ di console PS4.
   `overlay on /home/qba/.darling … lowerdir=/usr/libexec/darling, upperdir=/home/qba/.darling`
 - `journalctl -k -b` bersih dari oops/BUG
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/shots/verify.png" width="70%" alt="Verifikasi kernel di console PS4">
+</p>
+
 ### Dokumentasi
 
 | Dokumen | Isi |
@@ -68,6 +72,14 @@ di console PS4.
 | [Benchmark](https://github.com/Gar113/kernel-linux-7.3.0-aoeulia/blob/main/docs/BENCHMARKS.md) | Hasil terukur + cara ulang (`scripts/bench.sh`) |
 
 ### Benchmark singkat (dijalankan di console ini)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/bench.svg" width="100%" alt="Grafik benchmark: CPU, disk, PSI, GPU">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/shots/bench.png" width="70%" alt="Output scripts/bench.sh di console PS4">
+</p>
 
 | Area | Angka kunci |
 |---|---|

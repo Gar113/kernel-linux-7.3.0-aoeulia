@@ -6,6 +6,10 @@ kernel/flag berubah, jalankan ulang skrip yang sama dan bandingkan.
 
 Log mentah: [`benchmarks/raw-2026-11-13.txt`](benchmarks/raw-2026-11-13.txt)
 
+<div align="center">
+  <img src="bench.svg" alt="Ringkasan benchmark: CPU, disk, PSI, GPU" width="100%">
+</div>
+
 ## Cara ulang
 
 ```bash
@@ -31,6 +35,10 @@ Butuh `fio`, `openssl`, `7z`, `zstd`, `python3`; GPU butuh `glxinfo`,
 
 Angka bisa bergeser ±5–15% antar run (thermal, background load, HDD).
 Yang penting adalah **perbandingan relatif** saat mengganti kernel/flag.
+
+<div align="center">
+  <img src="shots/bench.png" alt="Ringkasan output scripts/bench.sh di console PS4" width="100%">
+</div>
 
 ---
 
