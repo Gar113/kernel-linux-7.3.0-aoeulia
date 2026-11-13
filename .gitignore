@@ -1,0 +1,9 @@
+# build artifacts (rilis lewat GitHub Release, bukan commit)
+bzImage
+System.map
+*.o
+*.a
+
+# scratch
+/tmp/
+*.log
