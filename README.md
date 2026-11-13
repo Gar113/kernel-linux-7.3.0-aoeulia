@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/Gar113"><img src="docs/logo.svg" width="132" height="132" alt="Logo GAR 113"></a>
+  <br>
+  <sub>dibangun &amp; diuji di console oleh <b>GAR 113</b></sub>
+</p>
+
 <div align="center">
   <img src="docs/banner.svg" alt="PS4 Linux 7.3.0 — PSI + Darling" width="100%">
 </div>
@@ -19,12 +25,6 @@
 
 <p align="center">
   <sub>PS4 Linux “Strawberry” · AMD Jaguar 8C · 8 GB GDDR5 shared · Radeon GCN2 “Liverpool”</sub>
-</p>
-
-<p align="center">
-  <a href="https://github.com/Gar113"><img src="https://github.com/Gar113.png?size=96" width="56" height="56" alt="GAR 113"></a>
-  <br>
-  <sub>dibangun &amp; diuji di console oleh <b>GAR 113</b></sub>
 </p>
 
 ---
@@ -215,6 +215,8 @@ build.sh                                  skrip build (PSI + Darling, KNAME, LTO
 configs/darling.cfg                       fragmen config prasyarat Darling
 config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build + sha256
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
+scripts/update-logo.sh                    regenerate docs/logo.svg dari avatar GitHub
+docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
 docs/*.svg                                banner, diagram arsitektur, animasi build
 ```
 
@@ -223,7 +225,7 @@ docs/*.svg                                banner, diagram arsitektur, animasi bu
 <table>
 <tr>
 <td width="96" align="center" valign="middle">
-  <a href="https://github.com/Gar113"><img src="https://github.com/Gar113.png?size=160" width="88" height="88" alt="GAR 113"></a>
+  <a href="https://github.com/Gar113"><img src="docs/logo.svg" width="108" height="108" alt="Logo GAR 113"></a>
 </td>
 <td valign="middle">
 
