@@ -1,113 +1,122 @@
-# PS4 Linux 7.3 kernel — PSI + Darling prerequisites
+<div align="center">
+  <img src="docs/banner.svg" alt="PS4 Linux 7.3.0 — PSI + Darling" width="100%">
+</div>
 
-Kernel build untuk **PlayStation 4 (Aeolia, AMD Jaguar 8-core, 8 GB GDDR5 shared
-dengan GPU)** yang menjalankan distro Linux PS4 (root ext4 di `/dev/sda2`).
-Repo ini bukan salinan source kernel: isinya hanya skrip build, fragmen config,
-config hasil build, dan alat verifikasi — plus rilis `bzImage` yang siap dipasang.
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=21&pause=1200&color=3FB950&center=true&vCenter=true&width=950&lines=PSI+aktif+%E2%86%92+lmkd+Android+tenang+di+8+GB;Darling+0.1+siap+%E2%86%92+binary+Mach-O+jalan;7.3.0-Gar113-NoLTO+%C2%B7+PS4+Aeolia+%C2%B7+clang+19" alt="typing">
+</div>
 
-Dua tujuan build:
+<p align="center">
+  <a href="https://github.com/Gar113/kernel-linux-7.3.0-aoeulia/releases/latest"><img src="https://img.shields.io/github/v/release/Gar113/kernel-linux-7.3.0-aoeulia?style=for-the-badge&logo=github&label=release&color=8957e5" alt="release"></a>
+  <img src="https://img.shields.io/badge/kernel-7.3.0--Gar113--NoLTO-1f6feb?style=for-the-badge&logo=linux&logoColor=white" alt="kernel">
+  <img src="https://img.shields.io/badge/PSI-enabled-3fb950?style=for-the-badge" alt="psi">
+  <img src="https://img.shields.io/badge/Darling-ready-8957e5?style=for-the-badge&logo=apple&logoColor=white" alt="darling">
+  <img src="https://img.shields.io/badge/platform-PS4%20Aeolia-eb6e00?style=for-the-badge&logo=playstation&logoColor=white" alt="platform">
+  <img src="https://img.shields.io/badge/toolchain-clang%2019.1.7-58a6ff?style=for-the-badge&logo=llvm&logoColor=white" alt="toolchain">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--2.0-3fb950?style=for-the-badge" alt="license"></a>
+</p>
 
-1. **PSI (Pressure Stall Information)** — supaya `lmkd` Android (Waydroid) bisa
-   memakai pressure-based killing, bukan cuma `lowmemorykiller` berbasis ambang.
-2. **Prasyarat Darling** (layer kompatibilitas macOS) — namespace, overlayfs
-   prefix, `mmap_min_addr=0`, `userfaultfd`, dan kawan-kawannya.
+<p align="center">
+  <sub>PS4 Linux “Strawberry” · AMD Jaguar 8C · 8 GB GDDR5 shared · Radeon GCN2 “Liverpool”</sub>
+</p>
 
-## Hasil build
+---
 
-| Item | Nilai |
-|---|---|
-| `uname -r` | `7.3.0-Gar113-NoLTO` |
-| `uname -v` | `#2 SMP PREEMPT_DYNAMIC Fri Nov 13 13:46:23 WIB 2026` |
-| Source | [`striker91n/ps4-linux-7.3`](https://github.com/striker91n/ps4-linux-7.3) commit `f56b8a7c2` (Linux 7.3.0 "Strawberry") |
-| Compiler | clang 19.1.7 / LLD 19.1.7 (`LLVM=1`) |
-| Target | `-march=btver2 -mtune=btver2 -O3` |
-| LTO | none |
-| `bzImage` | ±19 MB — `sha256 9c2f74b47aa54d37790b49d9ae9e76c4f3027006386b5906ea81553080c1ca78` |
-| `.config` | `e843ef21789e7919df1e29ba83f29a53be7d376c144204801f24d61c63e1a414` |
-| Waktu build | ±2 jam, `-j6`, nice 10, di console itu sendiri |
+## Kenapa kernel ini ada
 
-`LOCALVERSION` di-override jadi `-Gar113-NoLTO` (flag `KNAME`), dan `LOCALVERSION=""`
-di-export saat build supaya `scripts/setlocalversion` tidak menempelkan `+` pada
-tree yang punya perubahan belum di-commit.
+Dua masalah, satu kernel:
 
-## Kenapa PSI
+<table>
+<tr>
+<td width="50%" valign="top">
 
-Android memakai PSI untuk `lmkd` (`ro.lmk.psi_compat_mode`, `pressure` di
-`lmkd`). Tanpa `CONFIG_PSI`, kernel jatuh ke mode ambang memori lama yang lebih
-cepat salah bunuh proses di mesin 8 GB dengan memori dipakai bersama GPU.
-Kernel PSI sebelumnya sudah dipakai sejak build 23 Okt 2026; build ini
-mempertahankannya.
+**🧠 PSI untuk lmkd**
+Android (Waydroid) butuh `/proc/pressure/*` supaya `lmkd` bisa membunuh proses
+berdasarkan **tekanan memori**, bukan ambang buta. Di mesin 8 GB yang memorinya
+dipakai bersama GPU, ambang buta itu terlalu cepat salah bunuh.
 
-## Kenapa prasyarat Darling
+`CONFIG_PSI=y` · `PSI_DEFAULT_DISABLED=n`
 
-Darling 0.1+ tidak lagi memakai kernel module: XNU/Mach diemulasi di userspace
-(`darlingserver` + `mldr`). Yang tetap butuh dukungan kernel:
+</td>
+<td width="50%" valign="top">
 
-- Prefix `~/.darling` = `overlayfs` (lower = `/usr/libexec/darling`, upper = prefix)
-  di dalam mount + PID namespace baru → butuh `CONFIG_NAMESPACES` (`*_NS`) dan
-  `CONFIG_OVERLAY_FS`, plus `CONFIG_TMPFS_XATTR` kalau upper-nya tmpfs.
-- `darlingserver` memakai `memfd_create()` dan `process_vm_readv()`.
-- Aplikasi Mach-O lama memetakan segmen `__TEXT` di `0x1000`; dengan
-  `mmap_min_addr` default 4096+ muncul error
-  `Cannot mmap segment __TEXT at 0x1000: Operation not permitted`.
-  Karena itu `CONFIG_DEFAULT_MMAP_MIN_ADDR=0` (lihat catatan keamanan di bawah).
-- App 32-bit: `CONFIG_IA32_EMULATION` + `CONFIG_COMPAT_32BIT_TIME`.
-- Image/DMG: `CONFIG_FUSE_FS` + `CONFIG_BLK_DEV_LOOP`.
+**🍎 Prasyarat Darling**
+Darling 0.1+ tidak lagi memakai kernel module — Mach/XNU diemulasi di userspace
+(`darlingserver` + `mldr`). Kernel cuma perlu namespace, overlayfs, `mmap_min_addr=0`,
+dan beberapa syscall yang sebelumnya dimatikan.
 
-Fragmen config lengkap: [`configs/darling.cfg`](configs/darling.cfg).
+`configs/darling.cfg` · 13 simbol
 
-### Catatan keamanan
+</td>
+</tr>
+</table>
 
-`vm.mmap_min_addr=0` mematikan satu mitigasi (NULL-pointer-deref exploitation di
-kernel lama). Di console ini trade-off-nya diterima karena dibutuhkan Darling.
-Kalau tidak sedang butuh Darling, bisa dikembalikan runtime:
-`sudo sysctl -w vm.mmap_min_addr=4096` (tanpa rebuild).
+<div align="center">
+  <img src="docs/architecture.svg" alt="Arsitektur: userspace, kernel, hardware" width="100%">
+</div>
 
-## Config penting di build ini
+## Isi kotak
+
+| | Fitur | Status | Kenapa |
+|:--|:--|:--|:--|
+| 🧠 | PSI (`/proc/pressure`, `memory.pressure`) | `y` | lmkd Android / Waydroid |
+| 🍎 | Namespaces + overlayfs prefix | `y` | `~/.darling` ala container |
+| 📉 | `DEFAULT_MMAP_MIN_ADDR=0` | `0` | Mach-O lama map `__TEXT` di `0x1000` |
+| 🧩 | `userfaultfd`, `memfd`, `process_vm_readv` | `y` | `darlingserver` |
+| 🧱 | `overlayfs`, `fuse`, `loop`, `tmpfs_xattr` | `y` | prefix + DMG/image |
+| 🕹️ | `binderfs` | `y` | Waydroid |
+| ⚡ | `SCHED_CLASS_EXT` + `DEBUG_INFO_BTF` | `y` | scheduler userspace (`scx_*`) |
+| 🧮 | MGLRU + `zram` + `zswap` | `y` | bertahan di 8 GB |
+| 🎛️ | `PREEMPT_DYNAMIC`, `HZ=250`, BFQ, `fq_codel` | `y` | latency vs overhead |
+| 🌐 | `BBR`, `wireguard`, `veth`/`bridge`/`tun` | `y` | jaringan |
+| 🍷 | `NTSYNC` | `y` | sinkronisasi thread Wine/Proton |
+| 🧬 | `IA32_EMULATION` + `COMPAT_32BIT_TIME` | `y` | app 32-bit |
+
+<details>
+<summary><b>Lihat tabel config lengkap (yang berubah / penting)</b></summary>
 
 | Symbol | Nilai | Alasan |
-|---|---|---|
-| `CONFIG_PSI` | `y` | `lmkd` Android / Waydroid |
-| `CONFIG_PSI_DEFAULT_DISABLED` | `n` | PSI aktif sejak boot |
-| `CONFIG_DEFAULT_MMAP_MIN_ADDR` | `0` | Mach-O lama (`__TEXT` di 0x1000) |
-| `CONFIG_USERFAULTFD` | `y` | kompat tambahan (sebelumnya mati) |
-| `CONFIG_NAMESPACES` + `*_NS`, `CONFIG_OVERLAY_FS` | `y` | prefix Darling |
+|:--|:--|:--|
+| `CONFIG_LOCALVERSION` | `"-Gar113-NoLTO"` | nama kernel via `KNAME`, tanpa `+` |
+| `CONFIG_PSI` | `y` | `lmkd` Android |
+| `CONFIG_PSI_DEFAULT_DISABLED` | `n` | aktif sejak boot |
+| `CONFIG_DEFAULT_MMAP_MIN_ADDR` | `0` | kompat Mach-O lama |
+| `CONFIG_USERFAULTFD` | `y` | sebelumnya mati |
+| `CONFIG_NAMESPACES` + `{UTS,IPC,PID,NET,USER}_NS` | `y` | containerization Darling |
+| `CONFIG_OVERLAY_FS`, `CONFIG_TMPFS_XATTR` | `y` | prefix overlay |
 | `CONFIG_MEMFD_CREATE`, `CONFIG_CROSS_MEMORY_ATTACH`, `CONFIG_KCMP` | `y` | `darlingserver` |
-| `CONFIG_BINFMT_MISC`, `CONFIG_SECCOMP_FILTER` | `y` | loader / sandbox |
+| `CONFIG_BINFMT_MISC`, `CONFIG_SECCOMP_FILTER` | `y` | loader + sandbox |
 | `CONFIG_IA32_EMULATION`, `CONFIG_COMPAT_32BIT_TIME` | `y` | app 32-bit |
 | `CONFIG_FUSE_FS`, `CONFIG_BLK_DEV_LOOP` | `y` | image / DMG |
-| `CONFIG_DEBUG_INFO_BTF` | `y` | dibutuhkan `sched_ext` (`scx_*`) |
-| `CONFIG_SCHED_CLASS_EXT` | `y` | scheduler userspace |
-| `CONFIG_LRU_GEN` | `y` | multi-gen LRU, penting di 8 GB |
-| `CONFIG_ZRAM`, `CONFIG_ZSWAP` | `y` | swap terkompresi |
+| `CONFIG_DEBUG_INFO_BTF`, `CONFIG_SCHED_CLASS_EXT` | `y` | sched_ext |
+| `CONFIG_LRU_GEN`, `CONFIG_ZRAM`, `CONFIG_ZSWAP` | `y` | manajemen memori |
 | `CONFIG_ANDROID_BINDERFS` | `y` | Waydroid |
-| `CONFIG_NTSYNC` | `y` | sinkronisasi thread ala Windows (Wine/Proton) |
-| `CONFIG_HZ` / `CONFIG_PREEMPT_DYNAMIC` | `250` / `y` | latency vs overhead |
-| `CONFIG_DEFAULT_IOSCHED` / `CONFIG_DEFAULT_NET_SCH` | `bfq` / `fq_codel` | storage + jaringan |
+| `CONFIG_NTSYNC` | `y` | Wine/Proton |
+| `CONFIG_HZ`, `CONFIG_PREEMPT_DYNAMIC` | `250`, `y` | latency |
+| `CONFIG_DEFAULT_IOSCHED`, `CONFIG_DEFAULT_NET_SCH` | `bfq`, `fq_codel` | storage + net |
 | `CONFIG_TCP_CONG_BBR` | `y` | congestion control |
 
-Config hasil build utuh: [`config/kernel-7.3.0-Gar113-NoLTO.config`](config/kernel-7.3.0-Gar113-NoLTO.config).
+Config utuh: [`config/kernel-7.3.0-Gar113-NoLTO.config`](config/kernel-7.3.0-Gar113-NoLTO.config)
 
-## Cara build
+</details>
 
-Butuh source kernel 7.3 di `~/ps4-linux-7.3` (clone `striker91n/ps4-linux-7.3`,
-firmware SD8797/MT7668 di `extra_firmware/`), clang/LLD 19, dan ±30 GB disk.
+## Build
+
+<div align="center">
+  <img src="docs/build-animation.svg" alt="Animasi build: config sampai bzImage siap" width="100%">
+</div>
+
+Butuh source 7.3 di `~/ps4-linux-7.3` (clone [`striker91n/ps4-linux-7.3`](https://github.com/striker91n/ps4-linux-7.3),
+firmware SD8797/MT7668 di `extra_firmware/`), clang/LLD 19, ±30 GB disk.
 
 ```bash
-# default: PSI + Darling, LTO none
-./build.sh
-
-# tanpa prasyarat Darling (kernel PSI saja)
-DARLING=0 ./build.sh
-
-# nama kernel custom -> uname -r = 7.3.0-<nama>
-KNAME="Gar113-NoLTO" ./build.sh
-
-# varian lain
-LTO=thin JOBS=8 OUT=~/out LOG=~/build.log ./build.sh
+./build.sh                        # PSI + Darling, LTO none
+DARLING=0 ./build.sh              # kernel PSI saja
+KNAME="Gar113-NoLTO" ./build.sh   # uname -r = 7.3.0-Gar113-NoLTO
+LTO=thin JOBS=8 ./build.sh        # varian lain
 ```
 
-Build panjang sebaiknya dijalankan sebagai systemd user unit supaya aman logout:
+Build panjang sebaiknya sebagai systemd user unit (aman logout):
 
 ```bash
 systemd-run --user --unit=ps4-kernel-build --collect \
@@ -117,9 +126,10 @@ systemd-run --user --unit=ps4-kernel-build --collect \
   ./build.sh
 ```
 
-## Cara pasang (di console)
+## Pasang
 
 ```bash
+sha256sum -c SHA256SUMS --ignore-missing          # dari release
 sudo mkdir -p /mnt/ps4boot
 sudo mount /dev/sda1 /mnt/ps4boot
 sudo cp /mnt/ps4boot/bzImage /mnt/ps4boot/bzImage.backup
@@ -128,57 +138,84 @@ sync && sudo umount /mnt/ps4boot
 # reboot console
 ```
 
-Rollback: pasang lagi `bzImage.backup` dari partisi boot, atau pakai backup
-kernel sebelumnya + `restore-*.sh`.
+Rollback: salin lagi `bzImage.backup` ke `/mnt/ps4boot/bzImage`.
 
-## Verifikasi setelah reboot
-
-```bash
-./scripts/verify-kernel.sh
+```mermaid
+flowchart LR
+    A[bzImage rilis] --> B[partisi boot /dev/sda1]
+    B --> C[reboot]
+    C --> D{uname -r}
+    D -->|7.3.0-Gar113-NoLTO| E[verify-kernel.sh]
+    E --> F[/proc/pressure ✓<br/>mmap 0x1000 ✓<br/>darling exec ✓/]
+    D -->|kernel lama| G[rollback bzImage.backup]
 ```
 
-Cek manual minimal:
+## Verifikasi
 
-```bash
-uname -r                      # 7.3.0-Gar113-NoLTO
-cat /proc/pressure/memory
-sysctl vm.mmap_min_addr       # 0
-darling exec /usr/bin/basename /a/b/c.txt   # -> c.txt
+```console
+$ uname -r
+7.3.0-Gar113-NoLTO
+$ cat /proc/pressure/memory
+some avg10=0.00 avg60=0.00 avg300=0.00 total=7092
+full avg10=0.00 avg60=0.00 avg300=0.00 total=6953
+$ sysctl vm.mmap_min_addr
+vm.mmap_min_addr = 0
+$ darling exec /usr/bin/basename /a/b/c.txt
+c.txt
 ```
 
-Bukti dari console yang sama setelah kernel ini dipasang:
+Otomatis: [`scripts/verify-kernel.sh`](scripts/verify-kernel.sh)
 
-- `uname -r` → `7.3.0-Gar113-NoLTO`, `#2 SMP PREEMPT_DYNAMIC`
-- `mmap((void*)0x1000, 4096, ...)` → berhasil (sebelumnya `EPERM`)
-- `/proc/pressure/{cpu,io,memory}` dan `cgroup memory.pressure` tersedia
-- `darling exec /usr/bin/basename /a/b/c.txt` → `c.txt`
-- di dalam namespace Darling:
-  `overlay on /home/qba/.darling ... lowerdir=/usr/libexec/darling, upperdir=/home/qba/.darling`
-- `journalctl -k -b` bersih dari oops/BUG (hanya warning firmware EDID yang sudah ada sebelumnya)
+Di dalam namespace Darling:
 
-## Catatan / known issues
+```console
+$ darling exec /bin/mount | grep overlay
+overlay on /home/qba/.darling type overlay (rw,relatime,
+  lowerdir=/usr/libexec/darling, upperdir=/home/qba/.darling,
+  workdir=/home/qba/.darling.workdir)
+```
 
-- **Cold start Darling lambat**: run pertama setelah boot bisa >90 detik
-  (launchd start), run berikutnya instan. Bukan hang.
-- **`amdgpu: Direct firmware load for edid/my_edid.bin failed`**: EDID custom PS4
-  belum ada di `/lib/firmware/edid/`. Tidak fatal kalau display normal.
-- **`EXT4-fs (sda2): error count since last fsck: 8`**: error filesystem lama di
-  root ext4, perlu fsck saat maintenance (butuh unmount/reboot rescue).
-- **Bukan kernel**: Quadra (AppImage Roblox launcher) membawa GTK 4.18.6 yang
-  segfault di Wayland native Plasma 6 + mesa 25.1 (`segfault ... in libgtk-4.so.1`).
-  Solusinya jalankan lewat XWayland (`GDK_BACKEND=x11`), bukan rebuild kernel.
+## Known issues
+
+<details open>
+<summary><b>Darling cold start lambat</b></summary>
+
+Run pertama setelah boot bisa >90 detik karena `launchd` start; run berikutnya
+instan. Bukan hang.
+</details>
+
+<details>
+<summary><b>Quadra (AppImage Roblox) segfault di Wayland — bukan kernel</b></summary>
+
+Quadra membawa GTK 4.18.6 sendiri dan crash di Wayland native Plasma 6 + mesa 25.1:
+
+```
+kernel: quadra-rewrite[..]: segfault at 8 ... in libgtk-4.so.1
+systemd: app-org.quadrahq.Quadra@..service: Failed with result 'core-dump'
+```
+
+Jalankan lewat XWayland:
+
+```bash
+GDK_BACKEND=x11 ~/.local/bin/Quadra.AppImage
+```
+</details>
 
 ## Struktur repo
 
-```
-build.sh                                  # skrip build (PSI + Darling, KNAME, LTO, OUT/LOG)
-configs/darling.cfg                       # fragmen config prasyarat Darling
-config/kernel-7.3.0-Gar113-NoLTO.config   # .config hasil build (reproduksi)
-scripts/verify-kernel.sh                  # cek PSI + prasyarat Darling di kernel terpasang
+```text
+build.sh                                  skrip build (PSI + Darling, KNAME, LTO, OUT/LOG)
+configs/darling.cfg                       fragmen config prasyarat Darling
+config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build + sha256
+scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
+docs/*.svg                                banner, diagram arsitektur, animasi build
 ```
 
 ## Lisensi
 
-Kernel dan turunannya (config, `System.map`, `bzImage`) mengikuti lisensi source
-kernel: **GPL-2.0** (dengan pengecualian yang berlaku di tree upstream). Skrip di
-repo ini disediakan apa adanya, tanpa garansi.
+Kernel dan turunannya (`config`, `System.map`, `bzImage`) mengikuti lisensi source
+kernel: **GPL-2.0**. Skrip di repo ini disediakan apa adanya.
+
+<div align="center">
+  <sub>Dibangun di console itu sendiri · clang 19.1.7 · ±2 jam · <code>-j6</code> nice 10</sub>
+</div>

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-label="Arsitektur kernel PS4 Linux 7.3.0: hardware, kernel, userspace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#0a1424"/>
+    </linearGradient>
+    <linearGradient id="kbox" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10203a"/>
+      <stop offset="100%" stop-color="#0d1729"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3fb950"/>
+      <stop offset="50%" stop-color="#58a6ff"/>
+      <stop offset="100%" stop-color="#8957e5"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#3d4f73"/>
+    </marker>
+    <style>
+      .t  { font-family: 'Helvetica Neue', Arial, sans-serif; fill: #e6edf3; }
+      .m  { font-family: monospace; fill: #9fb0cc; }
+      .lbl{ font-family: monospace; fill: #6e7f9e; font-size: 12px; letter-spacing: 3px; }
+      .chip text { font-family: monospace; font-size: 13px; }
+      .flow { stroke: #3d4f73; stroke-width: 2; fill: none; stroke-dasharray: 6 7; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)"/>
+  <g stroke="#16223a" stroke-width="1" opacity="0.7">
+    <path d="M0 100H1200M0 200H1200M0 300H1200M0 400H1200M0 500H1200M0 600H1200"/>
+    <path d="M100 0V700M200 0V700M300 0V700M400 0V700M500 0V700M600 0V700M700 0V700M800 0V700M900 0V700M1000 0V700M1100 0V700"/>
+  </g>
+
+  <!-- userspace -->
+  <text x="40" y="40" class="lbl">1 · USERSPACE</text>
+  <g class="t">
+    <rect x="40" y="60" width="330" height="120" rx="14" fill="#0f2417" stroke="#2ea043"/>
+    <text x="64" y="96" font-size="19" font-weight="700">Waydroid / Android</text>
+    <text x="64" y="124" font-size="14" class="m">lmkd baca /proc/pressure/*</text>
+    <text x="64" y="148" font-size="14" class="m">binderfs · memcg · cgroup v2</text>
+    <circle cx="344" cy="84" r="5" fill="#3fb950">
+      <animate attributeName="opacity" values="1;0.15;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <rect x="400" y="60" width="360" height="120" rx="14" fill="#1a1430" stroke="#8957e5"/>
+    <text x="424" y="96" font-size="19" font-weight="700">Darling 0.1 (macOS layer)</text>
+    <text x="424" y="124" font-size="14" class="m">prefix overlay + PID/mount ns</text>
+    <text x="424" y="148" font-size="14" class="m">mldr · darlingserver · Mach-O</text>
+    <circle cx="734" cy="84" r="5" fill="#a371f7">
+      <animate attributeName="opacity" values="0.15;1;0.15" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+
+    <rect x="790" y="60" width="370" height="120" rx="14" fill="#0d1f33" stroke="#1f6feb"/>
+    <text x="814" y="96" font-size="19" font-weight="700">Plasma 6 · game · Proton</text>
+    <text x="814" y="124" font-size="14" class="m">mesa radeonsi “liverpool”</text>
+    <text x="814" y="148" font-size="14" class="m">Wayland + XWayland</text>
+  </g>
+
+  <!-- flow up -->
+  <g class="flow">
+    <path d="M205 250V182"><animate attributeName="stroke-dashoffset" values="26;0" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M580 250V182"><animate attributeName="stroke-dashoffset" values="26;0" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M975 250V182"><animate attributeName="stroke-dashoffset" values="26;0" dur="1.6s" repeatCount="indefinite"/></path>
+  </g>
+
+  <!-- kernel -->
+  <text x="40" y="282" class="lbl">2 · KERNEL</text>
+  <rect x="40" y="296" width="1120" height="250" rx="18" fill="url(#kbox)" stroke="#2b3b5c"/>
+  <text x="68" y="336" class="t" font-size="24" font-weight="700">7.3.0-Gar113-NoLTO</text>
+  <text x="68" y="362" class="m" font-size="14">SMP PREEMPT_DYNAMIC · clang 19.1.7 · -march=btver2 · LTO none</text>
+
+  <g class="chip" font-size="13">
+    <g>
+      <rect x="68" y="388" width="168" height="40" rx="9" fill="#0f2417" stroke="#2ea043"/>
+      <text x="84" y="414" fill="#3fb950">PSI=y</text>
+      <text x="150" y="414" fill="#6e7f9e">pressure</text>
+    </g>
+    <g>
+      <rect x="248" y="388" width="196" height="40" rx="9" fill="#1a1430" stroke="#8957e5"/>
+      <text x="264" y="414" fill="#a371f7">OVERLAY+FUSE</text>
+      <text x="376" y="414" fill="#6e7f9e">prefix</text>
+    </g>
+    <g>
+      <rect x="456" y="388" width="190" height="40" rx="9" fill="#0d1f33" stroke="#1f6feb"/>
+      <text x="472" y="414" fill="#58a6ff">MMAP_MIN=0</text>
+      <text x="592" y="414" fill="#6e7f9e">mach-o</text>
+    </g>
+    <g>
+      <rect x="658" y="388" width="150" height="40" rx="9" fill="#241a0d" stroke="#d29922"/>
+      <text x="674" y="414" fill="#e3b341">USERFAULTFD</text>
+    </g>
+    <g>
+      <rect x="820" y="388" width="140" height="40" rx="9" fill="#0f2417" stroke="#2ea043"/>
+      <text x="836" y="414" fill="#3fb950">MGLRU</text>
+      <text x="898" y="414" fill="#6e7f9e">zram</text>
+    </g>
+    <g>
+      <rect x="972" y="388" width="160" height="40" rx="9" fill="#0d1f33" stroke="#1f6feb"/>
+      <text x="988" y="414" fill="#58a6ff">SCHED_EXT</text>
+      <text x="1078" y="414" fill="#6e7f9e">btf</text>
+    </g>
+
+    <g>
+      <rect x="68" y="440" width="180" height="40" rx="9" fill="#0f2417" stroke="#2ea043"/>
+      <text x="84" y="466" fill="#3fb950">BINDERFS</text>
+      <text x="180" y="466" fill="#6e7f9e">android</text>
+    </g>
+    <g>
+      <rect x="260" y="440" width="150" height="40" rx="9" fill="#1a1430" stroke="#8957e5"/>
+      <text x="276" y="466" fill="#a371f7">NTSYNC</text>
+      <text x="350" y="466" fill="#6e7f9e">wine</text>
+    </g>
+    <g>
+      <rect x="422" y="440" width="196" height="40" rx="9" fill="#0d1f33" stroke="#1f6feb"/>
+      <text x="438" y="466" fill="#58a6ff">BFQ + FQ_CODEL</text>
+    </g>
+    <g>
+      <rect x="630" y="440" width="150" height="40" rx="9" fill="#241a0d" stroke="#d29922"/>
+      <text x="646" y="466" fill="#e3b341">BBR</text>
+      <text x="690" y="466" fill="#6e7f9e">tcp</text>
+    </g>
+    <g>
+      <rect x="792" y="440" width="180" height="40" rx="9" fill="#0f2417" stroke="#2ea043"/>
+      <text x="808" y="466" fill="#3fb950">NAMESPACES</text>
+    </g>
+    <g>
+      <rect x="984" y="440" width="148" height="40" rx="9" fill="#1a1430" stroke="#8957e5"/>
+      <text x="1000" y="466" fill="#a371f7">ZSWAP</text>
+      <text x="1062" y="466" fill="#6e7f9e">swap</text>
+    </g>
+  </g>
+
+  <rect x="68" y="500" width="1064" height="26" rx="13" fill="#0a1221" stroke="#1d2b45"/>
+  <text x="88" y="518" class="m" font-size="12">configs/darling.cfg + PSI + tuning-general → config/kernel-7.3.0-Gar113-NoLTO.config</text>
+
+  <!-- flow down -->
+  <g class="flow">
+    <path d="M205 620V546"><animate attributeName="stroke-dashoffset" values="0;26" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M600 620V546"><animate attributeName="stroke-dashoffset" values="0;26" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M975 620V546"><animate attributeName="stroke-dashoffset" values="0;26" dur="1.6s" repeatCount="indefinite"/></path>
+  </g>
+
+  <!-- hardware -->
+  <text x="40" y="650" class="lbl">3 · HARDWARE</text>
+  <g class="t">
+    <rect x="40" y="660" width="1120" height="30" rx="15" fill="#111a2c" stroke="#263553"/>
+    <text x="60" y="680" class="m" font-size="12">AMD Jaguar 8C/8T · 8 GB GDDR5 shared · Radeon GCN2 “Liverpool” · GbE + MT7668 · USB/eMMC</text>
+  </g>
+
+  <!-- traveling packet across the kernel chips -->
+  <circle r="3.5" fill="#58a6ff" opacity="0.9">
+    <animateMotion dur="7s" repeatCount="indefinite" path="M68 460 H1116"/>
+    <animate attributeName="opacity" values="0;0.9;0" dur="7s" repeatCount="indefinite"/>
+  </circle>
+</svg>

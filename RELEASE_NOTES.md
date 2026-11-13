@@ -66,12 +66,10 @@ sync && sudo umount /mnt/ps4boot
 
 Rollback: salin kembali `bzImage.backup` ke `/mnt/ps4boot/bzImage`.
 
-### Known issues (bukan dari build ini)
+### Known issues
 
-- `amdgpu: Direct firmware load for edid/my_edid.bin failed` — EDID custom PS4
-  belum ada di `/lib/firmware/edid/`, tidak fatal.
-- `EXT4-fs (sda2): error count since last fsck: 8` — error lama di root ext4,
-  perlu fsck saat maintenance.
-- Quadra (AppImage Roblox) membawa GTK 4.18.6 yang segfault di Wayland native
-  Plasma 6 + mesa 25.1; jalankan dengan `GDK_BACKEND=x11`. Tidak ada hubungannya
-  dengan kernel ini.
+- **Darling cold start lambat** — run pertama setelah boot bisa >90 detik karena
+  `launchd` start; run berikutnya instan. Bukan hang.
+- **Quadra (AppImage Roblox) segfault di Wayland — bukan kernel.** AppImage-nya
+  membawa GTK 4.18.6 sendiri dan crash di Wayland native Plasma 6 + mesa 25.1
+  (`segfault ... in libgtk-4.so.1`). Jalankan lewat XWayland: `GDK_BACKEND=x11`.
