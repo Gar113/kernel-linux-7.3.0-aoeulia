@@ -1,11 +1,5 @@
-<p align="center">
-  <a href="https://github.com/Gar113"><img src="docs/logo.svg" width="132" height="132" alt="Logo GAR 113"></a>
-  <br>
-  <sub>dibangun &amp; diuji di console oleh <b>GAR 113</b></sub>
-</p>
-
 <div align="center">
-  <img src="docs/banner.svg" alt="PS4 Linux 7.3.0 — PSI + Darling" width="100%">
+  <img src="docs/hero.svg?v=1" alt="Linux × PlayStation — no blobs, no NVIDIA" width="100%">
 </div>
 
 <div align="center">
@@ -215,22 +209,23 @@ build.sh                                  skrip build (PSI + Darling, KNAME, LTO
 configs/darling.cfg                       fragmen config prasyarat Darling
 config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build + sha256
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
-scripts/update-logo.sh                    regenerate docs/logo.svg dari avatar GitHub
+scripts/update-logo.sh                    regenerate docs/logo.svg + docs/hero.svg dari avatar
+docs/hero.svg                             banner utama: Linux x PlayStation, marquee, stempel NVIDIA
 docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
 docs/gar113.svg                           wordmark "GAR 113" muncul huruf demi huruf, loop
-docs/*.svg                                banner, diagram arsitektur, animasi build
+docs/*.svg                                diagram arsitektur, animasi build
 ```
 
 ## Pembuat
 
 <p align="center">
-  <img src="docs/gar113.svg" alt="GAR 113" width="420">
+  <img src="docs/gar113.svg?v=1" alt="GAR 113" width="420">
 </p>
 
 <table>
 <tr>
 <td width="96" align="center" valign="middle">
-  <a href="https://github.com/Gar113"><img src="docs/logo.svg" width="108" height="108" alt="Logo GAR 113"></a>
+  <a href="https://github.com/Gar113"><img src="docs/logo.svg?v=2" width="108" height="108" alt="Logo GAR 113"></a>
 </td>
 <td valign="middle">
 
