@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/hero.svg?v=1" alt="Linux × PlayStation — no blobs, no NVIDIA" width="100%">
+  <img src="docs/hero.svg?v=2" alt="Linux × PlayStation — no blobs, no NVIDIA" width="100%">
 </div>
 
 <div align="center">
@@ -210,7 +210,7 @@ configs/darling.cfg                       fragmen config prasyarat Darling
 config/kernel-7.3.0-Gar113-NoLTO.config   .config hasil build + sha256
 scripts/verify-kernel.sh                  cek PSI + prasyarat Darling di kernel terpasang
 scripts/update-logo.sh                    regenerate docs/logo.svg + docs/hero.svg dari avatar
-docs/hero.svg                             banner utama: Linux x PlayStation, marquee, stempel NVIDIA
+docs/hero.svg                             hero: Tux + Linux x PlayStation + tombol PS, marquee, stempel NVIDIA
 docs/logo.svg                             logo GAR 113 beranimasi (cincin + orbit)
 docs/gar113.svg                           wordmark "GAR 113" muncul huruf demi huruf, loop
 docs/*.svg                                diagram arsitektur, animasi build

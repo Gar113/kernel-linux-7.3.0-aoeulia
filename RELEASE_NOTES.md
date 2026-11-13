@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/hero.svg?v=1" width="600" alt="Linux × PlayStation — GAR 113">
+  <img src="https://raw.githubusercontent.com/Gar113/kernel-linux-7.3.0-aoeulia/main/docs/hero.svg?v=2" width="600" alt="Linux × PlayStation — GAR 113">
 </p>
 
 ## Kernel PS4 Linux 7.3.0 — PSI + prasyarat Darling

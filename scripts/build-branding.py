@@ -162,6 +162,11 @@ HERO = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" vie
       <stop offset="0%" stop-color="#f85149"/>
       <stop offset="100%" stop-color="#ff9b8a"/>
     </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e6edf3"/>
+      <stop offset="55%" stop-color="#58a6ff"/>
+      <stop offset="100%" stop-color="#a371f7"/>
+    </linearGradient>
     <radialGradient id="glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.28"/>
       <stop offset="100%" stop-color="#58a6ff" stop-opacity="0"/>
@@ -192,6 +197,10 @@ HERO = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" vie
       @keyframes pulse  {{ 0%,100% {{ opacity: .5; }} 50% {{ opacity: 1; }} }}
       @keyframes breathe{{ 0%,100% {{ opacity: .3; }} 50% {{ opacity: .85; }} }}
       @keyframes tw     {{ 0%,100% {{ opacity: .12; }} 50% {{ opacity: .9; }} }}
+      @keyframes bob    {{ 0%,100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-3px); }} }}
+      @keyframes psglow {{ 0%,100% {{ opacity: .55; }} 50% {{ opacity: 1; }} }}
+      .bob {{ animation: bob 3.6s ease-in-out infinite; }}
+      .ps  {{ animation: psglow 2.8s ease-in-out infinite; }}
       @keyframes glitch {{
         0%,100% {{ transform: translate(0, 0); }}
         20%     {{ transform: translate(-1.6px, 1px); }}
@@ -237,10 +246,45 @@ HERO = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" vie
   <circle cx="150" cy="160" r="88" fill="none" stroke="url(#accent)" stroke-width="1.5"
           class="pulse" opacity="0.6"/>
 
-  <!-- judul -->
-  <text x="300" y="122" textLength="850" lengthAdjust="spacingAndGlyphs"
-        font-family="'Helvetica Neue', Arial, sans-serif" font-size="66" font-weight="800"
-        letter-spacing="1" fill="#e6edf3">LINUX <tspan fill="#3fb950">&#215;</tspan> PLAYSTATION</text>
+  <!-- judul: Tux + LINUX x PLAYSTATION + tombol PlayStation -->
+  <g transform="translate(318 104)">
+    <g class="bob">
+      <ellipse cx="-22" cy="2" rx="5" ry="13" fill="#101827" stroke="#3d4f73" stroke-width="1.2"
+               transform="rotate(-12 -22 2)"/>
+      <ellipse cx="22" cy="2" rx="5" ry="13" fill="#101827" stroke="#3d4f73" stroke-width="1.2"
+               transform="rotate(12 22 2)"/>
+      <ellipse cx="-9" cy="30" rx="8" ry="3.5" fill="#f0883e"/>
+      <ellipse cx="9" cy="30" rx="8" ry="3.5" fill="#f0883e"/>
+      <ellipse cx="0" cy="0" rx="24" ry="30" fill="#101827" stroke="#3d4f73" stroke-width="1.5"/>
+      <ellipse cx="0" cy="4" rx="16" ry="21" fill="#dfe7f2"/>
+      <ellipse cx="-8" cy="-11" rx="5.5" ry="6.5" fill="#ffffff"/>
+      <ellipse cx="8" cy="-11" rx="5.5" ry="6.5" fill="#ffffff"/>
+      <circle cx="-7" cy="-10.5" r="2.3" fill="#0b1020"/>
+      <circle cx="9" cy="-10.5" r="2.3" fill="#0b1020"/>
+      <path d="M-6.5 -2 L6.5 -2 L0 7 Z" fill="#f0883e"/>
+    </g>
+  </g>
+
+  <text x="362" y="124" textLength="660" lengthAdjust="spacingAndGlyphs"
+        font-family="'Helvetica Neue', Arial, sans-serif" font-size="58" font-weight="800"
+        letter-spacing="0.5" fill="#e6edf3">LINUX <tspan fill="#3fb950">&#215;</tspan> <tspan fill="url(#titleGrad)">PLAYSTATION</tspan></text>
+
+  <!-- tombol PlayStation 2x2 -->
+  <g transform="translate(1046 72)" fill="none" stroke-width="3.5" stroke-linejoin="round">
+    <g class="ps">
+      <path d="M15 6 L24 22 L6 22 Z" fill="#3fb950" stroke="#3fb950"/>
+    </g>
+    <g class="ps" style="animation-delay:.4s">
+      <circle cx="49" cy="14" r="8.5" fill="none" stroke="#f85149"/>
+    </g>
+    <g class="ps" style="animation-delay:.8s">
+      <path d="M9 43 L21 55 M21 43 L9 55" stroke="#58a6ff" stroke-linecap="round"/>
+    </g>
+    <g class="ps" style="animation-delay:1.2s">
+      <rect x="42" y="42" width="14" height="14" rx="1.5" fill="none" stroke="#db61a2"/>
+    </g>
+  </g>
+
   <text x="302" y="158" textLength="836" lengthAdjust="spacingAndGlyphs" class="m"
         font-size="15" letter-spacing="3" fill="#8b9bb8">PS4 AEOLIA &#183; AMD JAGUAR 8C &#183; RADEON GCN2 &#183; MESA RADEONSI &#183; NO BLOBS</text>
 
